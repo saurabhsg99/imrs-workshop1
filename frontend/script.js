@@ -220,7 +220,7 @@ async function handlePaymentConfirmation() {
   paymentMessage.classList.add("text-gray-600"); // Indicate processing
 
   try {
-    const response = await fetch("http://localhost:5500/submit-registration", {
+    const response = await fetch("https://imrsworkshop1backend.vercel.app/submit-registration", {
       // Vercel will proxy this to your backend function
       // Target your Node.js backend
       method: "POST",
