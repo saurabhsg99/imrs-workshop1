@@ -14,7 +14,9 @@ const port = process.env.PORT || 5500; // Updated port to match your frontend er
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Middleware
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+  origin:'https://imrsworkshop1.vercel.app/'
+})); // Enable CORS for all routes
 // bodyParser.urlencoded and bodyParser.json are generally not needed for multipart/form-data
 // as Multer will handle parsing the body.
 // app.use(bodyParser.urlencoded({ extended: true }));
