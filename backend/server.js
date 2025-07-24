@@ -14,9 +14,11 @@ const port = process.env.PORT || 5500; // Updated port to match your frontend er
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Middleware
-app.use(cors({
-  origin:'https://imrsworkshop1.vercel.app/'
-})); // Enable CORS for all routes
+app.use(
+  cors({
+    origin: "https://imrsworkshop1.vercel.app/",
+  })
+); // Enable CORS for all routes
 // bodyParser.urlencoded and bodyParser.json are generally not needed for multipart/form-data
 // as Multer will handle parsing the body.
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -108,12 +110,10 @@ app.post("/submit-registration", upload.any(), async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     console.log("Registration email sent successfully to " + email);
-    res
-      .status(200)
-      .json({
-        message:
-          "Registration successful! Confirmation email sent to your address.",
-      });
+    res.status(200).json({
+      message:
+        "Registration successful! Confirmation email sent to your address.",
+    });
   } catch (error) {
     console.error("Error sending registration email:", error);
     // Check if it's a Nodemailer error for more specific messages
@@ -121,12 +121,61 @@ app.post("/submit-registration", upload.any(), async (req, res) => {
       console.error("Nodemailer response code:", error.responseCode);
       console.error("Nodemailer response:", error.response);
     }
-    res
-      .status(500)
-      .json({
-        error:
-          "Failed to send registration. Please check server logs for details.",
-      });
+    res.status(500).json({
+      error:
+        "Failed to send registration. Please check server logs for details.",
+    });
+  }
+});
+
+app.post("/send-query", upload.none(), async (req, res) => {
+  try {
+    console.log("Received query request:", req.body);
+    // req.body will now be populated by Multer with text fields
+    // const { name, email, message } = req.body;
+    const name = req.body["query-name"];
+    const email = req.body["query-email"];
+    const message = req.body["query-message"];
+    console.log("Parsed query data:", { name, email, message });
+    const tomail = process.env.EMAIL_USER; // Use your email address for sending queries
+
+    // Construct the email content
+    const mailOptions = {
+      from: email, // Sender address
+      to: tomail, // Send to the registrant's email for confirmation
+      // You might also want to send a BCC or CC to your admin email
+      // bcc: 'admin_email@example.com',
+      subject: "Workshop1 Query",
+      html: `
+                    <p>Here is the details:</p>
+                    <ul>
+                        <li><strong>Name:</strong> ${name}</li>
+                        <li><strong>Email:</strong> ${email}</li>
+                        <li><strong>Message:</strong> ${message || "N/A"}</li>
+                        </ul>
+                   
+                    <p>Best Regards,</p>
+                    <p>${name}</p>
+                `,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    console.log("Query sent successfully to " + tomail);
+    res.status(200).json({
+      message: "Query sent successfully.",
+    });
+  } catch (error) {
+    console.error("Error sending query email:", error);
+    // Check if it's a Nodemailer error for more specific messages
+    if (error.responseCode) {
+      console.error("Nodemailer response code:", error.responseCode);
+      console.error("Nodemailer response:", error.response);
+    }
+    res.status(500).json({
+      error: "Failed to send query. Please check server logs for details.",
+    });
   }
 });
 
