@@ -14,7 +14,7 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body class="text-gray-800 bg-gray-50">
     <!-- Navigation Bar -->
@@ -551,20 +551,20 @@
                 required />
               <label for="terms" class="block ml-2 text-sm text-gray-900">
                 I agree to the
-                <a
-                  href="#"
+              </label>
+              <div class="block ml-2 text-sm text-gray-900">
+                <span
                   onclick="openModal('privacyPolicyModal')"
-                  class="text-indigo-600 hover:underline"
-                  >Privacy Policy</a
+                  class="text-indigo-600 hover:underline cursor-pointer">
+                  Privacy Policy</span
                 >
                 and
-                <a
-                  href="#"
+                <span
                   onclick="openModal('termsOfUseModal')"
-                  class="text-indigo-600 hover:underline"
-                  >Terms of Use</a
+                  class="text-indigo-600 hover:underline cursor-pointer">
+                  Terms of Use</span
                 >.
-              </label>
+              </div>
             </div>
             <button
               type="submit"
@@ -1032,7 +1032,7 @@
             <h3 class="mb-6 text-2xl font-semibold text-center text-indigo-700">
               Send Us a Query
             </h3>
-            <form class="space-y-6">
+            <form id="queryForm" class="space-y-6">
               <div>
                 <label
                   for="query-name"
@@ -1042,7 +1042,7 @@
                 <input
                   type="text"
                   id="query-name"
-                  name="name"
+                  name="query-name"
                   class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   required />
               </div>
@@ -1055,7 +1055,7 @@
                 <input
                   type="email"
                   id="query-email"
-                  name="email"
+                  name="query-email"
                   class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   required />
               </div>
@@ -1067,7 +1067,7 @@
                 >
                 <textarea
                   id="query-message"
-                  name="message"
+                  name="query-message"
                   rows="4"
                   class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   required></textarea>
@@ -1078,6 +1078,7 @@
                 Send Message <i class="ml-2 fas fa-paper-plane"></i>
               </button>
             </form>
+            <p id="queryStatus" class="hidden mt-4 text-sm"></p>
           </div>
         </div>
         <!-- Google Maps Embed Placeholder -->
