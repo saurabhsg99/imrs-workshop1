@@ -16,7 +16,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Middleware
 app.use(
   cors({
-    origin: "https://imrsworkshop1.vercel.app/",
+    origin: "https://imrsworkshop1.vercel.app",
   })
 ); // Enable CORS for all routes
 // bodyParser.urlencoded and bodyParser.json are generally not needed for multipart/form-data
