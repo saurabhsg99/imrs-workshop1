@@ -252,3 +252,44 @@ async function handlePaymentConfirmation() {
       "Could not connect to the server. Please try again.";
   }
 }
+
+
+
+// Handle "Send Us a Query" form submission
+document.getElementById("queryForm").addEventListener("submit", async function (event) {
+  event.preventDefault();
+  const form = this;
+  const queryMessage = document.getElementById("queryStatus");
+  queryMessage.classList.remove("hidden", "text-red-600", "text-green-600");
+  queryMessage.classList.add("text-gray-600");
+  queryMessage.innerText = "Sending your query...";
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch("https://imrsworkshop1backend.vercel.app/send-query", {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+
+    if (response.ok) {
+      queryMessage.classList.remove("text-gray-600");
+      queryMessage.classList.add("text-green-600");
+      queryMessage.innerText = result.message || "Your query has been sent successfully!";
+      form.reset();
+      setTimeout(() => {
+        queryMessage.classList.add("hidden");
+      }, 3000);
+    } else {
+      queryMessage.classList.remove("text-gray-600");
+      queryMessage.classList.add("text-red-600");
+      queryMessage.innerText = result.error || "An error occurred. Please try again.";
+    }
+  } catch (error) {
+    queryMessage.classList.remove("text-gray-600");
+    queryMessage.classList.add("text-red-600");
+    queryMessage.innerText = "Could not connect to the server. Please try again.";
+  }
+});
+
